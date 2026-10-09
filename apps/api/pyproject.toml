@@ -1,0 +1,100 @@
+[project]
+name = "stylesense-api"
+version = "0.1.0"
+description = "StyleSenseAI — AI-powered personal styling and wardrobe management"
+requires-python = ">=3.11"
+dependencies = [
+    # Web framework
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-multipart>=0.0.9",
+    
+    # Database
+    "sqlalchemy[asyncio]>=2.0.30",
+    "asyncpg>=0.29.0",
+    "psycopg2-binary>=2.9.9",
+    "alembic>=1.13.0",
+    "pgvector>=0.3.0",
+    
+    # Settings & validation
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.3.0",
+    "email-validator>=2.1.0",
+    
+    # Security
+    "argon2-cffi>=23.1.0",
+    "PyJWT>=2.8.0",
+    "cryptography>=42.0.0",
+    
+    # Redis
+    "redis>=5.0.0",
+    
+    # Background jobs
+    "arq>=0.26.0",
+    
+    # Object storage
+    "boto3>=1.34.0",
+    
+    # HTTP client
+    "httpx>=0.27.0",
+    
+    # Image processing
+    "Pillow>=10.3.0",
+    
+    # Logging
+    "python-json-logger>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "httpx>=0.27.0",
+    "aiosqlite>=0.20.0",
+    "ruff>=0.4.0",
+    "black>=24.4.0",
+    "mypy>=1.10.0",
+    "bandit>=1.7.0",
+    "pip-audit>=2.7.0",
+]
+ml = [
+    "torch>=2.3.0",
+    "open-clip-torch>=2.24.0",
+    "mediapipe>=0.10.0",
+    "rembg>=2.0.0",
+    "scikit-learn>=1.5.0",
+    "lightgbm>=4.3.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "SIM"]
+ignore = ["S101", "S104"]  # Allow assert in tests, allow binding to 0.0.0.0
+
+[tool.black]
+line-length = 120
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

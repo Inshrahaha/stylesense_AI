@@ -1,0 +1,114 @@
+# StyleSenseAI — Docker Compose
+# Usage: docker compose up -d
+# Profiles: default (api+worker+db+redis+minio), scan (adds clamav)
+
+services:
+  # ── PostgreSQL + pgvector ──
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: stylesense-db
+    environment:
+      POSTGRES_DB: stylesense
+      POSTGRES_USER: stylesense
+      POSTGRES_PASSWORD: stylesense_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stylesense"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── Redis ──
+  redis:
+    image: redis:7-alpine
+    container_name: stylesense-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── MinIO (S3-compatible object storage) ──
+  minio:
+    image: minio/minio:latest
+    container_name: stylesense-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── API Server ──
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: stylesense-api
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+      - ./storage:/app/storage
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  # ── Background Worker (Arq) ──
+  worker:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: stylesense-worker
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+      - ./storage:/app/storage
+    command: arq app.workers.tasks.WorkerSettings
+    restart: unless-stopped
+
+  # ── ClamAV (optional, antivirus scanning) ──
+  clamav:
+    image: clamav/clamav:latest
+    container_name: stylesense-clamav
+    ports:
+      - "3310:3310"
+    volumes:
+      - clamavdata:/var/lib/clamav
+    profiles:
+      - scan
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  clamavdata:
