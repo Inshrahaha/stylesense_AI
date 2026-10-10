@@ -1,0 +1,110 @@
+# Body shape rules and styling recommendations
+# All guidance is neutral, body-positive, and focused strictly on silhouette balance.
+# No weight, BMI, or attractiveness judgments.
+
+shapes:
+  Hourglass:
+    description: "Balanced shoulder and hip proportions with a defined waistline."
+    conditions:
+      waist_to_hip_max: 0.75
+      shoulder_to_hip_min: 0.90
+      shoulder_to_hip_max: 1.10
+    recommended_silhouettes:
+      - "Wrap tops and dresses"
+      - "Fitted and semi-fitted waist silhouettes"
+      - "V-neck and sweetheart necklines"
+      - "A-line and pencil skirts"
+      - "Tailored blazers with defined waist"
+    suggested_fits:
+      - "Tailored fit"
+      - "High-rise bottoms"
+      - "Belted outerwear"
+    styles_to_try:
+      - "Classic chic"
+      - "Monochrome tailoring"
+      - "Fitted ethnic anarkalis and belted sarees"
+    notes: "Enhance your natural waist definition with structured lines and balanced proportions."
+
+  Pear:
+    description: "Hips are slightly wider than shoulders with a well-defined waist."
+    conditions:
+      shoulder_to_hip_max: 0.90
+      waist_to_hip_max: 0.80
+    recommended_silhouettes:
+      - "Boat-neck, scoop-neck, and statement collar tops"
+      - "A-line and skater skirts"
+      - "Straight-leg and wide-leg trousers"
+      - "Structured shoulders and puff sleeves"
+      - "Empire-waist and fit-and-flare dresses"
+    suggested_fits:
+      - "Regular to relaxed tops with volume at the shoulders"
+      - "Clean, flat-front trousers"
+      - "High-rise and mid-rise bottoms"
+    styles_to_try:
+      - "Statement prints on upper garments"
+      - "Dark neutral trousers paired with vibrant tops"
+      - "A-line kurtas with side slits and straight pants"
+    notes: "Balance proportions by adding visual interest and horizontal lines across the shoulder line."
+
+  Inverted Triangle:
+    description: "Shoulder or bust line is broader than the hip proportion."
+    conditions:
+      shoulder_to_hip_min: 1.10
+    recommended_silhouettes:
+      - "V-neck and scoop necklines to draw focus vertically"
+      - "A-line, pleated, and flared skirts"
+      - "Wide-leg trousers and cargo pants"
+      - "Peplum tops and drop-waist dresses"
+      - "Raglan and unpadded sleeve jackets"
+    suggested_fits:
+      - "Relaxed and flowy bottoms"
+      - "Minimalist, unpadded shoulder lines"
+      - "Mid-rise trousers"
+    styles_to_try:
+      - "Bold patterns and colors on bottoms"
+      - "Soft drapey tops"
+      - "Flared palazzos and lehengas with simple blouses"
+    notes: "Create visual harmony by introducing volume and texture at the hips and legs."
+
+  Rectangle:
+    description: "Shoulders, waist, and hips share aligned, balanced proportions."
+    conditions:
+      waist_to_hip_min: 0.80
+      shoulder_to_hip_min: 0.90
+      shoulder_to_hip_max: 1.10
+    recommended_silhouettes:
+      - "Belted shirt dresses and trench coats"
+      - "Ruffled, draped, and textured tops"
+      - "High-waisted trousers with pleats"
+      - "Fit-and-flare dresses"
+      - "Layered outerwear and cropped jackets"
+    suggested_fits:
+      - "Semi-fitted tops with layering"
+      - "Tapered and wide-leg trousers"
+      - "Contrasting belts"
+    styles_to_try:
+      - "Color-blocking"
+      - "Layering shirts under sweaters or blazers"
+      - "Draped sarees with contrasting borders and structured blouses"
+    notes: "Create dimension and curves through creative layering, belts, and textured fabrics."
+
+  Apple:
+    description: "Fuller torso with narrower limbs and subtle waist definition."
+    conditions:
+      waist_to_hip_min: 0.85
+      shoulder_to_hip_min: 0.95
+    recommended_silhouettes:
+      - "Empire-line and trapeze silhouettes"
+      - "V-neck and open collar tunics"
+      - "Straight-cut trousers and bootcut jeans"
+      - "Long open-front cardigans and unbuttoned blazers"
+      - "A-line dresses that flow over the midsection"
+    suggested_fits:
+      - "Relaxed fit around the midsection"
+      - "Straight and slim-straight pants"
+      - "Flowy, vertical drape fabrics"
+    styles_to_try:
+      - "Vertical stripes and monochrome looks"
+      - "Tunic kurtas with cigarette pants"
+      - "Statement earrings and necklaces"
+    notes: "Lengthen the torso with vertical lines, open necklines, and lightweight drapey fabrics."

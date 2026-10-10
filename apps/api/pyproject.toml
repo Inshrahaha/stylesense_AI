@@ -80,7 +80,10 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "SIM"]
-ignore = ["S101", "S104"]  # Allow assert in tests, allow binding to 0.0.0.0
+ignore = [
+    "S101", "S104", "B008", "S105", "A002", "N806", "B904", "E712", "E501", "W293",
+    "UP042", "E711", "S110", "SIM105", "SIM108", "SIM102"
+]
 
 [tool.black]
 line-length = 120

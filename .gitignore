@@ -31,8 +31,9 @@ env/
 *.sqlite3
 
 # Storage
-/storage/
-/test_storage/
+storage/
+test_storage/
+
 
 # Node
 node_modules/

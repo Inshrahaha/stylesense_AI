@@ -1,0 +1,208 @@
+# Category and fashion taxonomy for StyleSenseAI
+# Includes western and first-class Indian ethnic categories (kurta, saree, dupatta, etc.)
+
+categories:
+  top:
+    subcategories:
+      - t-shirt
+      - shirt
+      - polo
+      - blouse
+      - crop_top
+      - tank_top
+      - hoodie
+      - sweater
+    default_formality: 1
+    allowed_slots: ["top"]
+  bottom:
+    subcategories:
+      - jeans
+      - trousers
+      - chinos
+      - shorts
+      - skirt
+      - leggings
+      - cargo_pants
+    default_formality: 1
+    allowed_slots: ["bottom"]
+  dress:
+    subcategories:
+      - casual_dress
+      - formal_dress
+      - midi_dress
+      - maxi_dress
+      - shirt_dress
+    default_formality: 2
+    allowed_slots: ["dress"]
+  layer:
+    subcategories:
+      - blazer
+      - jacket
+      - cardigan
+      - coat
+      - denim_jacket
+      - shrug
+    default_formality: 2
+    allowed_slots: ["layer"]
+  ethnic_set:
+    subcategories:
+      - kurta
+      - kurta_pajama
+      - sherwani
+      - saree
+      - lehenga
+      - anarkali
+    default_formality: 3
+    allowed_slots: ["ethnic_set", "top"]
+  ethnic_bottom:
+    subcategories:
+      - pajama
+      - churidar
+      - dhoti
+      - salwar
+      - palazzos
+    default_formality: 2
+    allowed_slots: ["bottom"]
+  dupatta:
+    subcategories:
+      - dupatta
+      - stole
+      - shawl
+    default_formality: 2
+    allowed_slots: ["accessory"]
+  shoes:
+    subcategories:
+      - sneakers
+      - loafers
+      - formal_shoes
+      - sandals
+      - boots
+      - heels
+      - flats
+      - juttis
+      - kolhapuris
+    default_formality: 1
+    allowed_slots: ["shoes"]
+  bag:
+    subcategories:
+      - backpack
+      - tote_bag
+      - shoulder_bag
+      - clutch
+      - crossbody
+    default_formality: 1
+    allowed_slots: ["bag"]
+  accessory:
+    subcategories:
+      - belt
+      - sunglasses
+      - watch
+      - scarf
+      - jewelry
+    default_formality: 1
+    allowed_slots: ["accessory"]
+
+attributes:
+  patterns:
+    - solid
+    - striped
+    - plaid
+    - floral
+    - graphic
+    - polka_dot
+    - geometric
+    - paisley
+    - embroidered
+    - tie_dye
+
+  sleeves:
+    - sleeveless
+    - short_sleeve
+    - three_quarter
+    - long_sleeve
+
+  necklines:
+    - round_neck
+    - v_neck
+    - collared
+    - boat_neck
+    - scoop_neck
+    - turtleneck
+    - mandarin_collar
+
+  fits:
+    - slim
+    - regular
+    - relaxed
+    - oversized
+    - tailored
+    - skinny
+    - wide_leg
+    - straight
+
+  occasions:
+    - casual
+    - college
+    - work
+    - formal
+    - festive
+    - party
+    - lounge
+    - wedding
+
+  seasons:
+    - summer
+    - winter
+    - monsoon
+    - all_season
+    - spring_autumn
+
+colors:
+  - name: Black
+    hex: "#000000"
+    lab: [0, 0, 0]
+  - name: White
+    hex: "#FFFFFF"
+    lab: [100, 0, 0]
+  - name: Grey
+    hex: "#808080"
+    lab: [53, 0, 0]
+  - name: Navy
+    hex: "#000080"
+    lab: [13, 19, -44]
+  - name: Blue
+    hex: "#0000FF"
+    lab: [32, 79, -108]
+  - name: Light Blue
+    hex: "#ADD8E6"
+    lab: [84, -14, -16]
+  - name: Beige
+    hex: "#F5F5DC"
+    lab: [96, -2, 10]
+  - name: Brown
+    hex: "#8B4513"
+    lab: [38, 28, 38]
+  - name: Olive
+    hex: "#808000"
+    lab: [53, -13, 54]
+  - name: Green
+    hex: "#008000"
+    lab: [46, -52, 50]
+  - name: Red
+    hex: "#FF0000"
+    lab: [53, 80, 67]
+  - name: Maroon
+    hex: "#800000"
+    lab: [26, 48, 38]
+  - name: Pink
+    hex: "#FFC0CB"
+    lab: [83, 27, 4]
+  - name: Yellow
+    hex: "#FFFF00"
+    lab: [97, -22, 94]
+  - name: Orange
+    hex: "#FFA500"
+    lab: [74, 27, 78]
+  - name: Purple
+    hex: "#800080"
+    lab: [30, 58, -36]

@@ -6,11 +6,10 @@ health checks, and structured logging.
 """
 
 import time
-import uuid
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request, Response, status
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
@@ -23,11 +22,11 @@ from app.core.logging import (
     setup_logging,
 )
 from app.core.rate_limit import RateLimiter
-from app.db.session import close_db, init_db
+from app.db.session import close_db
 from app.deps import set_rate_limiter
 
 # Import routers
-from app.routers import auth, consents, me, profile
+from app.routers import auth, body, consents, me, media, profile, wardrobe
 
 logger = get_logger("main")
 
@@ -120,7 +119,7 @@ def create_app() -> FastAPI:
         # Request size limit (10 MB default, media endpoints have their own)
         content_length = request.headers.get("content-length")
         if content_length and int(content_length) > 10 * 1024 * 1024:
-            if not request.url.path.startswith("/media"):
+            if not request.url.path.startswith(("/media", "/api/v1/media")):
                 return JSONResponse(
                     status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
                     content={"detail": "Request body too large."},
@@ -172,6 +171,9 @@ def create_app() -> FastAPI:
     app.include_router(profile.router, prefix="/api/v1")
     app.include_router(consents.router, prefix="/api/v1")
     app.include_router(me.router, prefix="/api/v1")
+    app.include_router(media.router, prefix="/api/v1")
+    app.include_router(wardrobe.router, prefix="/api/v1")
+    app.include_router(body.router, prefix="/api/v1")
 
     # ── Health Checks ──
 

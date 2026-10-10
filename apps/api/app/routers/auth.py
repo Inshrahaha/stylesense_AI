@@ -21,9 +21,9 @@ from app.core.logging import get_logger
 from app.core.security import (
     create_access_token,
     generate_refresh_token,
+    hash_ip,
     hash_password,
     hash_token,
-    hash_ip,
     hash_ua,
     password_needs_rehash,
     validate_password_strength,

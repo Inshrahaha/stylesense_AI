@@ -4,7 +4,6 @@ Storage service — base interface + LocalFS implementation.
 Provider pattern: S3 for production/dev (MinIO), LocalFS for tests.
 """
 
-import os
 import uuid
 from abc import ABC, abstractmethod
 from pathlib import Path

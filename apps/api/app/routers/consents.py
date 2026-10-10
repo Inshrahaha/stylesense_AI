@@ -2,7 +2,6 @@
 Consent router — manage user consent for body media, third-party AI, analytics.
 """
 
-import uuid
 from datetime import datetime
 from typing import Annotated
 

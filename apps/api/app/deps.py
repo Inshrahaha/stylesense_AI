@@ -10,7 +10,6 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.config import get_settings
 from app.core.rate_limit import RateLimiter
 from app.core.security import decode_access_token
 from app.db.models.models import User

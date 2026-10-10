@@ -2,7 +2,6 @@
 Me router — account management, data export, account deletion.
 """
 
-import uuid
 from datetime import UTC, datetime
 from typing import Annotated
 
@@ -96,6 +95,23 @@ async def delete_account(
         .values(revoked_at=datetime.now(UTC))
     )
 
+    # Delete all media objects for user from storage
+    from app.db.models.models import MediaAsset
+    from app.services.storage.base import get_storage
+    media_stmt = select(MediaAsset).where(MediaAsset.user_id == user.id)
+    media_res = await db.execute(media_stmt)
+    assets = media_res.scalars().all()
+    storage = get_storage()
+    for a in assets:
+        try:
+            await storage.delete(a.object_key)
+        except Exception as e:
+            from app.core.logging import get_logger
+            get_logger("me").debug(f"Failed to delete {a.object_key}: {e}")
+        a.deleted_at = datetime.now(UTC)
+
+
     await log_audit_event(db, "account_delete", user.id, get_client_ip(request))
     await db.commit()
+
     # TODO: Enqueue purge job to delete all media from storage

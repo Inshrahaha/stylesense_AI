@@ -2,14 +2,13 @@
 Structured JSON logging with request IDs and PII redaction.
 """
 
+import json
 import logging
 import re
 import sys
 import uuid
 from contextvars import ContextVar
 from typing import Any
-
-import json
 
 from app.config import get_settings
 

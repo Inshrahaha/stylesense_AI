@@ -38,7 +38,10 @@ class LLMBase(ABC):
         Returns:
             dict with at least {"text": str, "usage": dict}
         """
-        ...
+    async def generate_json(self, prompt: str, image_bytes: bytes | None = None) -> dict[str, Any]:
+        """Convenience helper for structured JSON generation."""
+        resp = await self.complete(prompt, images=[image_bytes] if image_bytes else None, json_schema={})
+        return resp.get("parsed") or {}
 
 
 class MockLLM(LLMBase):
@@ -56,19 +59,29 @@ class MockLLM(LLMBase):
         max_tokens: int = 1024,
     ) -> dict[str, Any]:
         logger.debug(f"MockLLM: processing prompt ({len(prompt)} chars)")
-        
-        # Return structured JSON if schema provided
-        if json_schema:
-            return {
-                "text": "{}",
-                "parsed": {},
-                "usage": {"input_tokens": 0, "output_tokens": 0},
+
+        # Default mock garment classification if asked
+        parsed = {}
+        if "category" in prompt.lower():
+            parsed = {
+                "category": "top",
+                "subcategory": "shirt",
+                "pattern": "solid",
+                "sleeve": "short_sleeve",
+                "neckline": "collared",
+                "fit": "regular",
+                "formality": 1,
             }
 
         return {
-            "text": "This is a mock LLM response for development.",
+            "text": str(parsed),
+            "parsed": parsed,
             "usage": {"input_tokens": 0, "output_tokens": 0},
         }
+
+
+def get_llm_client() -> LLMBase:
+    return get_llm()
 
 
 def get_llm() -> LLMBase:

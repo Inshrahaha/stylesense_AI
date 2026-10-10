@@ -3,7 +3,6 @@ Audit logging — append-only log of security-relevant actions.
 """
 
 import uuid
-from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 

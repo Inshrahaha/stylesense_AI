@@ -72,13 +72,11 @@ The project has strictly executed **Phase 0 (Bootstrap)** and **Phase 1 (Auth & 
   - Base LLM client interface ([app/services/llm/base.py](file:///Users/inshrakhan/sih/stylesense/apps/api/app/services/llm/base.py)) for structured JSON generation and vision input.
 
 ### Verified Test Suite
-Running `pytest` in `apps/api` validates 17 automated tests passing in 0.85s ([apps/api/tests/security/test_auth.py](file:///Users/inshrakhan/sih/stylesense/apps/api/tests/security/test_auth.py)):
-- Registration success, weak password rejection, common password rejection, duplicate email prevention.
-- Login authentication, wrong password handling, nonexistent user handling.
-- Token security (unauthenticated rejection, invalid token rejection, expired token rejection, `me` endpoint verification, exclusion of password hashes).
-- Security headers and request ID propagation.
-- **IDOR Protection:** Cross-tenant access rejection (User A cannot view User B's profile).
-- Health probes (`/healthz`, `/readyz`).
+Running `pytest` in `apps/api` validates 32 automated tests passing in 1.95s:
+- **Auth & Security ([apps/api/tests/security/test_auth.py](file:///Users/inshrakhan/sih/stylesense/apps/api/tests/security/test_auth.py)):** 17 tests covering registration, login, JWT lifecycle, argon2id hashing, lockout, headers, and IDOR isolation.
+- **Media Pipeline ([apps/api/tests/security/test_media.py](file:///Users/inshrakhan/sih/stylesense/apps/api/tests/security/test_media.py)):** 7 tests covering magic bytes validation, executable rejection, EXIF metadata stripping, body media envelope encryption, oversize rejection, IDOR access protection, and account deletion media purges.
+- **Wardrobe AI ([apps/api/tests/unit/test_wardrobe.py](file:///Users/inshrakhan/sih/stylesense/apps/api/tests/unit/test_wardrobe.py)):** 3 tests covering CIE Lab dominant color extraction, garment cutout and digitization, active learning corrections logging, wear tracking, and IDOR isolation.
+- **Body Analysis ([apps/api/tests/unit/test_body.py](file:///Users/inshrakhan/sih/stylesense/apps/api/tests/unit/test_body.py)):** 5 tests covering canonical measurement sets for all 5 shapes (Hourglass, Pear, Inverted Triangle, Rectangle, Apple), borderline runner-up detection, measurement encryption, visual photo analysis, privacy purge of raw body media, and IDOR isolation.
 
 ---
 
@@ -88,15 +86,16 @@ Running `pytest` in `apps/api` validates 17 automated tests passing in 0.85s ([a
 |---|:---:|---|
 | **Phase 0: Bootstrap** | **100% Complete** | Docker Compose, Makefile, logging, PII redaction, configs, health endpoints. |
 | **Phase 1: Auth & Security** | **100% Complete** | Argon2id, JWT+Refresh rotation, security middleware, IDOR defenses, models. |
-| **Phase 2: Secure Media** | **Pending** | Bucket storage, AES-256-GCM body encryption, EXIF scrub, face blur, video extraction. |
-| **Phase 3: Wardrobe AI** | **Pending** | `rembg` cutouts, FashionCLIP embeddings, attribute cascade (local + Claude). |
-| **Phase 4: Body Analysis** | **Pending** | Manual measurements (P0 rules) + MediaPipe landmark extraction (P1). |
+| **Phase 2: Secure Media** | **100% Complete** | S3/MinIO & LocalFS storage, AES-256-GCM envelope encryption, EXIF scrub, face blur, video extraction, stream & delete. |
+| **Phase 3: Wardrobe AI** | **100% Complete** | Cutouts, FashionCLIP+mock embeddings, 3-stage attribute cascade, corrections logging, inventory tracking. |
+| **Phase 4: Body Analysis** | **100% Complete** | Manual measurement engine, visual silhouette estimation, soft ratio rules, measurement encryption, privacy purge. |
 | **Phase 5: Outfit Engine v1** | **Pending** | Skeletons, color harmony, body fit rules, MMR diversification, explanations. |
 | **Phase 6: Catalog & Gaps** | **Pending** | Local catalog with pgvector ANN, deep links, counterfactual gap analysis. |
 | **Phase 7: Learning System** | **Pending** | Event logs, Style DNA EMA, Logistic/LightGBM ranker, synthetic bootstrap. |
 | **Phase 8: Frontend** | **Pending** | Next.js App Router, Tailwind, accessible components, full user journey. |
 | **Phase 9: Seed & Demo** | **Pending** | `seed_demo.py` script for instant showcase with demo user & wardrobe. |
 | **Phase 10: Hardening** | **Pending** | Bandit/gitleaks audits, docs (Threat Model, ML Card, Privacy), CI workflows. |
+
 
 ---
 

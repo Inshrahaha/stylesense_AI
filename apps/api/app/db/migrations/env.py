@@ -2,12 +2,10 @@
 Alembic migration environment.
 """
 
-import asyncio
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import pool
-from sqlalchemy.ext.asyncio import async_engine_from_config
 
 # Import all models so Alembic can detect them
 from app.db.models.models import *  # noqa: F401, F403
@@ -67,7 +65,6 @@ def run_migrations_online() -> None:
 
 def run_async_migrations_sync():
     """Synchronous wrapper for async migrations."""
-    import asyncio
     # Use sync engine directly since Alembic doesn't need async
     configuration = config.get_section(config.config_ini_section, {})
     from sqlalchemy import engine_from_config

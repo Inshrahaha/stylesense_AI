@@ -6,9 +6,7 @@ import asyncio
 import os
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any
 
-import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -32,13 +30,19 @@ os.environ.update({
     "LOG_LEVEL": "WARNING",
 })
 
-from app.config import get_settings, Settings
-from app.db.session import Base, get_db
-from app.main import create_app
-
+import json
+import sqlite3
 
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.ext.compiler import compiles
+
+from app.db.session import Base, get_db
+from app.main import create_app
+
+sqlite3.register_adapter(list, json.dumps)
+sqlite3.register_adapter(dict, json.dumps)
+
+
 
 @compiles(ARRAY, "sqlite")
 def compile_array_sqlite(type_, compiler, **kw):
@@ -47,6 +51,7 @@ def compile_array_sqlite(type_, compiler, **kw):
 @compiles(JSONB, "sqlite")
 def compile_jsonb_sqlite(type_, compiler, **kw):
     return "TEXT"
+
 
 # Use SQLite for tests (no PostgreSQL needed for unit tests)
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"

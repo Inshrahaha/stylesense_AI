@@ -6,9 +6,7 @@ These tests verify the security requirements from PLAN.md §11.
 
 import uuid
 
-import pytest
 from httpx import AsyncClient
-
 
 # ──────────────────────────────────────────────
 # Registration & Login
@@ -105,8 +103,9 @@ class TestTokenSecurity:
 
     async def test_access_with_expired_token(self, client: AsyncClient):
         """Expired JWT is rejected."""
+        from datetime import UTC, datetime, timedelta
+
         import jwt as pyjwt
-        from datetime import datetime, timedelta, UTC
 
         payload = {
             "sub": str(uuid.uuid4()),

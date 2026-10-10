@@ -5,10 +5,9 @@ Per-IP and per-account limits on auth endpoints,
 per-user limits on upload and LLM-backed endpoints.
 """
 
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from typing import Any
 
-from app.config import get_settings
 from app.core.logging import get_logger
 
 logger = get_logger("rate_limit")
