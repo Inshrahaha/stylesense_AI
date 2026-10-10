@@ -5,7 +5,7 @@ Provider pattern: Claude for production, mock for offline/tests.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, cast
 
 from app.config import get_settings
 from app.core.logging import get_logger
@@ -91,6 +91,6 @@ def get_llm() -> LLMBase:
         return MockLLM()
     elif settings.llm_provider == "claude":
         from app.services.llm.claude import ClaudeLLM
-        return ClaudeLLM()
+        return cast(LLMBase, ClaudeLLM())
     else:
         raise ValueError(f"Unknown LLM provider: {settings.llm_provider}")

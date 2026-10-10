@@ -125,7 +125,7 @@ async def submit_manual_measurements(
     await db.refresh(profile)
 
     return BodyGuidanceResponse(
-        shape=profile.shape,
+        shape=profile.shape or guidance["shape"],
         confidence=profile.shape_confidence or 0.85,
         runner_up=guidance.get("runner_up"),
         ratios=profile.ratios or {},
@@ -224,7 +224,7 @@ async def analyze_visual_body(
     await db.refresh(profile)
 
     return BodyGuidanceResponse(
-        shape=profile.shape,
+        shape=profile.shape or guidance["shape"],
         confidence=profile.shape_confidence or 0.80,
         runner_up=guidance.get("runner_up"),
         ratios=profile.ratios or {},

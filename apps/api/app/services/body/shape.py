@@ -7,7 +7,7 @@ Never outputs weight, BMI, or evaluative judgments.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
@@ -21,7 +21,7 @@ RULES_PATH = Path(__file__).resolve().parent.parent.parent.parent / "data" / "bo
 def _load_body_rules() -> dict:
     if RULES_PATH.exists():
         with open(RULES_PATH, encoding="utf-8") as f:
-            return yaml.safe_load(f)
+            return cast(dict[str, Any], yaml.safe_load(f))
     return {}
 
 

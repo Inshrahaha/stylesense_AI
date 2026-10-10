@@ -25,7 +25,8 @@ def sanitize_and_reencode_image(
 
     Returns: (clean_bytes, width, height)
     """
-    with Image.open(io.BytesIO(data)) as img:
+    with Image.open(io.BytesIO(data)) as opened:
+        img: Image.Image = opened
         # Transpose based on EXIF orientation if present
         img = ImageOps.exif_transpose(img) or img
 
@@ -61,7 +62,8 @@ def generate_thumbnail(
     """
     Generate a scaled thumbnail preserving aspect ratio without metadata.
     """
-    with Image.open(io.BytesIO(data)) as img:
+    with Image.open(io.BytesIO(data)) as opened:
+        img: Image.Image = opened
         img = ImageOps.exif_transpose(img) or img
         if target_format.upper() in ("JPEG", "JPG") and img.mode in ("RGBA", "LA", "P"):
             background = Image.new("RGB", img.size, (255, 255, 255))
@@ -86,7 +88,8 @@ def blur_face_regions(data: bytes, face_boxes: list[tuple[int, int, int, int]] |
     If face_boxes are provided: list of (x, y, w, h).
     If face_boxes are None: attempts automatic face detection or blurs top-center region (upper 20% of full-body photo).
     """
-    with Image.open(io.BytesIO(data)) as img:
+    with Image.open(io.BytesIO(data)) as opened:
+        img: Image.Image = opened
         img = ImageOps.exif_transpose(img) or img
         if img.mode != "RGB":
             img = img.convert("RGB")

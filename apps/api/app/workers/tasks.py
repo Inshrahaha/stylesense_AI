@@ -2,6 +2,8 @@
 Arq worker settings and background task definitions.
 """
 
+from typing import Any
+
 from arq.connections import RedisSettings
 
 from app.config import get_settings
@@ -71,4 +73,4 @@ class WorkerSettings:
         return RedisSettings.from_dsn(settings.redis_url)
 
     # Cron jobs
-    cron_jobs = []  # TODO: Add nightly ranker training
+    cron_jobs: list[Any] = []  # TODO: Add nightly ranker training

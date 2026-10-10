@@ -88,7 +88,10 @@ class Settings(BaseSettings):
     def parse_cors_origins(cls, v: str | list[str]) -> list[str]:
         if isinstance(v, str):
             import json
-            return json.loads(v)
+            parsed = json.loads(v)
+            if not isinstance(parsed, list) or any(not isinstance(origin, str) for origin in parsed):
+                raise ValueError("cors_origins must be a JSON list of strings")
+            return parsed
         return v
 
     @property

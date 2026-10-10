@@ -6,6 +6,7 @@ Returns PNG image bytes with transparent background.
 """
 
 import io
+from typing import cast
 
 from PIL import Image
 
@@ -21,14 +22,15 @@ def generate_garment_cutout(image_bytes: bytes) -> bytes:
     """
     try:
         import rembg
-        output_bytes = rembg.remove(image_bytes)
+        output_bytes = cast(bytes, rembg.remove(image_bytes))
         logger.debug("Successfully generated cutout via rembg")
         return output_bytes
     except Exception as e:
         logger.debug(f"rembg not active ({e}); applying fallback alpha transparency mask")
 
     # Fallback: Convert to RGBA and apply corner-based background transparency mask
-    with Image.open(io.BytesIO(image_bytes)) as img:
+    with Image.open(io.BytesIO(image_bytes)) as opened:
+        img: Image.Image = opened
         img = img.convert("RGBA")
         datas = list(img.getdata())
 

@@ -8,7 +8,7 @@ Supports field-level envelope encryption for sensitive measurements.
 
 import io
 import json
-from typing import Any
+from typing import Any, cast
 
 from PIL import Image
 
@@ -32,7 +32,7 @@ def encrypt_measurements(measurements: dict[str, Any]) -> bytes:
 def decrypt_measurements(blob: bytes) -> dict[str, Any]:
     """Decrypt encrypted measurements blob to dict."""
     plaintext = decrypt_field(blob)
-    return json.loads(plaintext)
+    return cast(dict[str, Any], json.loads(plaintext))
 
 
 def estimate_proportions_from_image(image_bytes: bytes) -> dict[str, float]:

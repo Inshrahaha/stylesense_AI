@@ -7,11 +7,12 @@ Returns dominant colors with names, hex codes, and percentage shares.
 
 import io
 import math
+from typing import Any, cast
 
 from PIL import Image
 
 # Canonical color palette with sRGB and approx Lab values
-COLOR_PALETTE = [
+COLOR_PALETTE: list[dict[str, Any]] = [
     {"name": "Black", "hex": "#000000", "rgb": (0, 0, 0), "lab": (0, 0, 0)},
     {"name": "White", "hex": "#FFFFFF", "rgb": (255, 255, 255), "lab": (100, 0, 0)},
     {"name": "Grey", "hex": "#808080", "rgb": (128, 128, 128), "lab": (53, 0, 0)},
@@ -63,7 +64,7 @@ for _entry in COLOR_PALETTE:
     _entry["lab"] = rgb_to_lab(*_entry["rgb"])
 
 
-def match_closest_color(r: int, g: int, b: int) -> dict:
+def match_closest_color(r: int, g: int, b: int) -> dict[str, Any]:
 
     """Find closest canonical color in CIE Lab perceptual space."""
     target_l, target_a, target_b = rgb_to_lab(r, g, b)
@@ -86,15 +87,16 @@ def extract_dominant_colors(image_bytes: bytes, max_colors: int = 3) -> list[dic
     Extract top dominant colors from image bytes.
     Returns: list of dicts: [{"name": str, "hex": str, "share": float}]
     """
-    with Image.open(io.BytesIO(image_bytes)) as img:
+    with Image.open(io.BytesIO(image_bytes)) as opened:
+        img: Image.Image = opened
         img = img.convert("RGB")
         # Resize to small thumbnail for fast quantization
         img = img.resize((100, 100), Image.Resampling.BOX)
 
         # Quantize to 8 colors using fast median cut
         quantized = img.quantize(colors=8, method=Image.Quantize.MEDIANCUT)
-        palette = quantized.getpalette()  # [r, g, b, r, g, b, ...]
-        color_counts = quantized.getcolors()  # [(count, index), ...]
+        palette = cast(list[int] | None, quantized.getpalette())  # [r, g, b, r, g, b, ...]
+        color_counts = cast(list[tuple[int, int]] | None, quantized.getcolors())  # [(count, index), ...]
 
         if not color_counts or not palette:
             return [{"name": "Black", "hex": "#000000", "share": 1.0}]
@@ -102,7 +104,7 @@ def extract_dominant_colors(image_bytes: bytes, max_colors: int = 3) -> list[dic
         total_pixels = sum(count for count, _ in color_counts)
 
         # Map each quantized index to a canonical color
-        aggregated: dict[str, dict] = {}
+        aggregated: dict[str, dict[str, Any]] = {}
         for count, idx in color_counts:
             r = palette[idx * 3]
             g = palette[idx * 3 + 1]

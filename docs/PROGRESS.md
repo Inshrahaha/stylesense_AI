@@ -1,6 +1,6 @@
 # StyleSenseAI — Progress Tracker
 
-## Phase 0 — Bootstrap [P0] ✅
+## Phase 0 — Bootstrap [P0] 🔄
 - [x] Repository skeleton per §2
 - [x] `docker-compose.yml` (api, worker, postgres+pgvector, redis, minio, optional clamav)
 - [x] `.env.example` (no real secrets)
@@ -8,6 +8,8 @@
 - [x] `/healthz` and `/readyz` endpoints
 - [x] Structured JSON logging with request IDs and PII redaction
 - [x] `docs/DECISIONS.md`
+- [x] Portable Python command selection in `Makefile` (uses `.venv` or `python3`)
+- [x] Ruff and mypy quality gates pass locally
 - [ ] Pre-commit hooks (ruff, black, mypy, gitleaks, bandit) — TODO
 - [ ] GitHub Actions CI — TODO
 
@@ -61,7 +63,11 @@
 - [x] Neutral, body-positive styling output (strictly no weight, BMI, or attractiveness output)
 - [x] Body analysis unit and IDOR test suite passing
 
-## Phase 5 — Outfit Engine 🔲
+## Phase 5 — Outfit Engine 🔄 (recovery started)
+- [x] Deterministic, bounded candidate skeletons for top/bottom/shoes, dress/shoes, and ethnic-set/shoes
+- [x] Optional layer, bag, and dupatta variants; unavailable and duplicate items excluded
+- [x] Unit tests cover skeleton validity, stable ordering, and candidate cap
+- [ ] Occasion/formality/season hard filters, rule scoring, diversification, explanations, and API — TODO
 ## Phase 6 — Catalog & Gap Analysis 🔲
 ## Phase 7 — Learning System 🔲
 ## Phase 8 — Frontend 🔲

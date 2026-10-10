@@ -88,7 +88,7 @@ class RateLimiter:
             window_start = now - window_seconds
             pipe_key = f"rate_limit:{key}"
             await self._redis.zremrangebyscore(pipe_key, 0, window_start)
-            count = await self._redis.zcard(pipe_key)
+            count = int(await self._redis.zcard(pipe_key))
             return max(0, max_requests - count)
         else:
             now = datetime.now(UTC).timestamp()

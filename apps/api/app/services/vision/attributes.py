@@ -10,7 +10,7 @@ Infers formality (0-4), occasions, and seasons.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
@@ -28,7 +28,7 @@ TAXONOMY_PATH = Path(__file__).resolve().parent.parent.parent.parent / "data" / 
 def _load_taxonomy() -> dict:
     if TAXONOMY_PATH.exists():
         with open(TAXONOMY_PATH, encoding="utf-8") as f:
-            return yaml.safe_load(f)
+            return cast(dict[str, Any], yaml.safe_load(f))
     return {}
 
 
